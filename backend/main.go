@@ -12,6 +12,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,6 +22,7 @@ func main() {
 
 	router := gin.Default()
 
+	router.Use(cors.Default())
 	// handler.NewHandler(&handler.Config{
 	// 	R: router,
 	// })
@@ -34,7 +36,7 @@ func main() {
 	})
 
 	srv := &http.Server{
-		Addr:    ":8080",
+		Addr:    ":5000",
 		Handler: router,
 	}
 
