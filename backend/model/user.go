@@ -16,6 +16,7 @@ type User struct {
 	Password string    `db:"password" binding:"required"`
 }
 
+
 type LoginCheck struct {
 	Email    string
 	Password string

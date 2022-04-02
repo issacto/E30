@@ -34,6 +34,8 @@ func Router(c *Config) {
 
 	g.POST("/signup", h.Signup)
 	g.POST("/signin", h.Signin)
+	g.GET("/getFavSongs", h.GetFavSongs)
+	g.POST("/insertFavSong", h.InsertFavSong)
 }
 
 // Signup handler
@@ -76,5 +78,46 @@ func (h *Handler) Signin(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"hello": "it's signup",
+	})
+}
+
+// Signin handler
+func (h *Handler) InsertFavSong(c *gin.Context) {
+	var favSongInsertion model.FavSongInsertion
+	if err := c.ShouldBindBodyWith(&favSongInsertion, binding.JSON); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+	response := favSongInsertion.INSERTFAVSONG()
+	if response != nil {
+		c.JSON(http.StatusConflict, gin.H{
+			"error": "failed to login",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"hello": "it's signup",
+	})
+}
+
+func (h *Handler) GetFavSongs(c *gin.Context) {
+	var uuidInput model.UIDInput
+	if err := c.ShouldBindBodyWith(&uuidInput, binding.JSON); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+	response, err := uuidInput.GETFAVSONGS()
+	if err != nil {
+		c.JSON(http.StatusConflict, gin.H{
+			"error": "failed to login",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"hello": response,
 	})
 }

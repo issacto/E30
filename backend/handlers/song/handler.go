@@ -38,9 +38,10 @@ func Router(c *Config) {
 
 // Stripe here
 func (h *Handler) GetAllSongs(c *gin.Context) {
-	model.GETDAILYSONGS()
+	response, err := model.GETDAILYSONGS()
 	c.JSON(http.StatusOK, gin.H{
-		"hello": "it's signout",
+		"error": err,
+		"data":  response,
 	})
 }
 
