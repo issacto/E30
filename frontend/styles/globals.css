@@ -2,6 +2,7 @@ html,
 body {
   padding: 0;
   margin: 0;
+  color:white;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     min-width: 100%;
@@ -22,22 +23,35 @@ a {
   min-height: 70vh;
   min-width: 100%;
   max-width: 100%;
-  background-color: yellow;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(36, 32, 32);
+  padding:1%
 }
 
 .layoutHeader{
-  min-height: 15vh;
   min-width: 100%;
-    max-width: 100%;
-  background-color: red;
+  max-width: 100%;
+  background-color: white;
+  display: flex;
+  padding:2%;
+  padding-right: 5%;
+  justify-content: space-between;
+  align-items: center;
 
 }
 
 .layoutFooter{
-  min-height: 15vh;
+  min-height: 20vh;
   min-width: 100%;
   max-width: 100%;
-  background-color: blue;
+  padding:4%;
+  background-color: purple;
+  display:flex;
+  justify-content:end;
+  align-items: center;
 
 }
 
@@ -45,4 +59,63 @@ a {
   min-height: 100vh;
   min-width: 100%;
   max-width: 100%;
+}
+
+
+.navHeader{
+  display: flex;
+  flex-direction: row;
+}
+
+.navLinkP{
+  color:purple;
+  margin-left: 6%;
+  font-size: 2vh;
+  text-decoration: underline;     
+  cursor: pointer;
+}
+
+.bigHeaderP{
+  font-size: 3.4vh;
+  color:black;
+  cursor: pointer;
+}
+
+.loginBoard{
+  justify-content: center;
+  padding:2%
+
+}
+
+.landingButtonsBoard{
+  margin-top: 0%;
+}
+
+
+.inputLabel{
+  color:white
+}
+
+.mainHeader{
+  font-size: 4vh;
+}
+
+.logoTextSession{
+  display:flex;
+  flex-direction: row;
+  align-items:center
+}
+
+
+.tableHeader{
+  color:white
+}
+
+
+.tableField{
+  color:white
+}
+
+.homePageButton{
+  cursor: pointer;
 }

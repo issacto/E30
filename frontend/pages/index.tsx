@@ -7,14 +7,34 @@ import { Button } from '@mantine/core';
 import { useRouter } from 'next/router';
 
 
-
 const Home: NextPage = () => {
   const router = useRouter();
 
   return (
     <NonLoginLayout>
-      <Button className="homePageButton" onClick={()=>router.push('/login')}>Login</Button>
-      <Button className="homePageButton" onClick={()=>router.push('/signup')}>Signup</Button>
+        <div style={{ position: "relative", width:"100%", paddingBottom: "40%" }} >
+  <Image
+    alt="Image Alt"
+    src="/landingImage.jpg"
+    layout="fill"
+    objectFit="contain" // Scale your image down to fit into the container
+  />
+  <p style={{position:'absolute', top:'45%', right:'23%' ,color:"white", fontSize:"3vh"}}>Discover daily popular songs in the world!</p>
+  <div  style={{position:'absolute', top:'60%', right:'27%', display:"flex", flexDirection:"row"}} >
+  <Button style={{color:"white"}} color="violet" className="homePageButton" onClick={()=>router.push('/signup')}>Signup</Button>
+  <Button style={{color:"white", marginLeft:"2%"}} color="pink" className="homePageButton" onClick={()=>router.push('/login')}>Login</Button>
+
+  </div>
+  
+</div>
+
+      <div className="landingButtonsBoard">
+        
+      {/* <Button color="violet" className="homePageButton" onClick={()=>router.push('/signup')}>Signup</Button>
+      {" "}
+      <Button color="violet" className="homePageButton" onClick={()=>router.push('/login')}>Login</Button> */}
+
+      </div>
     </NonLoginLayout>
   )
 }

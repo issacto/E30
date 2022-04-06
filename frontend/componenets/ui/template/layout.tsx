@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component,useEffect } from 'react';
 import { LayoutHeader,LayoutFooter } from '../component';
 
 export class NonLoginLayout extends Component {
+  
   render () {
     const { children } = this.props
+
+
+
     return (
       <div className='layout'>
         <LayoutHeader />

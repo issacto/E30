@@ -1,31 +1,47 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
 import { NonLoginLayout } from '../componenets'
-import { PasswordInput, Input, Button } from '@mantine/core'
+import { PasswordInput, Input, Button, Group } from '@mantine/core'
 import { At } from 'tabler-icons-react';
 import { useRouter } from 'next/router';
-
+import { Login } from 'tabler-icons-react';
+import { useCookies } from "react-cookie"
+import { useEffect } from 'react'
 
 const LoginPage: NextPage = () => {
   const router = useRouter();
+  const [isLogin, setIsLogin] = useCookies(["isLogin"])
+
+
+  useEffect(() => {
+      //auth is initialized and there is no user
+      if (isLogin.isLogin!="false") {
+        router.push("../inner/dashboard")
+      }
+  }, [isLogin])
 
   return (
     <NonLoginLayout>
-      Login
+      <div className="mainHeadermainHeader">
+      <div className="logoTextSession"><Login
+                size={48}
+                color={'white'}
+              /><p className="mainHeader"> Login</p></div>
       <Input
       icon={<At />}
       placeholder="Your email"
     />
       <PasswordInput
       placeholder="Password"
-      label="Password"
-      description="Password must include at least one letter, number and special character"
-      required
+      label={<p className="inputLabel">Password</p>}
     />
-       <Button className="homePageButton" onClick={()=>router.push('/')}>Back</Button>
-    <Button className="homePageButton" >Submit</Button>
+      <br/>
+      <Group position="right" mt="xl">
+       <Button color="violet" className="homePageButton" onClick={()=>router.push('/')}>Back</Button>
+       {" "}
+    <Button color="pink" className="homePageButton" onClick={()=>{ setIsLogin("isLogin", true);}} >Submit</Button>
+    </Group>
+    </div>
+  
     </NonLoginLayout>
   )
 }
