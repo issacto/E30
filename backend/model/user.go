@@ -16,23 +16,28 @@ type User struct {
 	Password string    `db:"password" binding:"required"`
 }
 
+type SignUpUser struct {
+	Age      int    `binding:"required"`
+	Email    string `db:"email" json:"email" binding:"required"`
+	Name     string `db:"name" json:"name" binding:"required"`
+	Password string `db:"password" binding:"required"`
+}
 
 type LoginCheck struct {
 	Email    string
 	Password string
 }
 
-func (u *User) SIGNUP() error {
-
+func (su *SignUpUser) SIGNUP() error {
 	conn := config.GetDB()
 	if _, err := conn.Exec(context.Background(),
-		"CREATE TABLE IF NOT EXISTS Users (id UUID PRIMARY KEY, email STRING, password STRING, name STRING)"); err != nil {
+		"CREATE TABLE IF NOT EXISTS Users (id uuid DEFAULT uuid_generate_v4(), email STRING PRIMARY KEY, password STRING, name STRING, age Integer)"); err != nil {
 		print(err)
 		return err
 
 	}
 	if _, err := conn.Exec(context.Background(),
-		"INSERT INTO Users (id, email, password, name) VALUES ($1, $2, $3, $4 )", u.UID, u.Email, u.Password, u.Name); err != nil {
+		"INSERT INTO Users (email, password, name, age) VALUES ($1, $2, $3, $4)", su.Email, su.Password, su.Name, su.Age); err != nil {
 
 		return err
 	}

@@ -20,7 +20,6 @@ func Connect() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-
 	cockroachdb_url := os.Getenv("COCKROACH_DATABASE_URL")
 	config, err := pgx.ParseConfig(cockroachdb_url)
 

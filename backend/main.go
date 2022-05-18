@@ -13,6 +13,7 @@ import (
 func main() {
 	// you could insert your favorite logger here for structured or leveled logging
 	log.Println("Starting server...")
+	gin.SetMode(gin.ReleaseMode)
 
 	router := gin.Default()
 
@@ -33,10 +34,8 @@ func main() {
 	// 	Addr:    ":8080",
 	// 	Handler: router,
 	// }
-
-	router.Run("0.0.0.0:5000")
-
 	config.Connect()
+	router.Run("0.0.0.0:5000")
 
 	// Graceful server shutdown - https://github.com/gin-gonic/examples/blob/master/graceful-shutdown/graceful-shutdown/server.go
 	// go func() {

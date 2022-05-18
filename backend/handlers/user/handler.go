@@ -36,19 +36,21 @@ func Router(c *Config) {
 	g.POST("/signin", h.Signin)
 	g.GET("/getFavSongs", h.GetFavSongs)
 	g.POST("/insertFavSong", h.InsertFavSong)
+	g.DELETE("/deleteFavSong", h.deleteFavSong)
 }
 
 // Signup handler
 func (h *Handler) Signup(c *gin.Context) {
-	var newUser model.User
+	var newUser model.SignUpUser
 	if err := c.ShouldBindBodyWith(&newUser, binding.JSON); err != nil {
+		print("Inside")
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
 		})
 		return
 	}
+	print("Outside")
 	response := newUser.SIGNUP()
-	print(response)
 	if response != nil {
 		c.JSON(http.StatusConflict, gin.H{
 			"error": response,
@@ -77,7 +79,7 @@ func (h *Handler) Signin(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"hello": "it's signup",
+		"hello": response,
 	})
 }
 
@@ -93,31 +95,55 @@ func (h *Handler) InsertFavSong(c *gin.Context) {
 	response := favSongInsertion.INSERTFAVSONG()
 	if response != nil {
 		c.JSON(http.StatusConflict, gin.H{
-			"error": "failed to login",
+			"wasSuccessful": false,
 		})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"hello": "it's signup",
+		"wasSuccessful": true,
 	})
 }
 
-func (h *Handler) GetFavSongs(c *gin.Context) {
-	var uuidInput model.UIDInput
-	if err := c.ShouldBindBodyWith(&uuidInput, binding.JSON); err != nil {
+func (h *Handler) deleteFavSong(c *gin.Context) {
+	var favSongInsertion model.FavSongDeletion
+	if err := c.ShouldBindBodyWith(&favSongInsertion, binding.JSON); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
 		})
 		return
 	}
-	response, err := uuidInput.GETFAVSONGS()
-	if err != nil {
+	response := favSongInsertion.DELETEFAVSONG()
+	if response != nil {
 		c.JSON(http.StatusConflict, gin.H{
-			"error": "failed to login",
+			"wasSuccessful": false,
 		})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"hello": response,
+		"wasSuccessful": true,
+	})
+}
+
+func (h *Handler) GetFavSongs(c *gin.Context) {
+	var emailInput model.EmailInput
+	print("here")
+	print("here")
+	if err := c.Bind(&emailInput); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
+		return
+	}
+	print(emailInput.Email)
+	response, err := emailInput.GETFAVSONGS()
+	print(response)
+	if err != nil {
+		c.JSON(http.StatusConflict, gin.H{
+			"error": err,
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"data": response,
 	})
 }

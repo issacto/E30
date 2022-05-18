@@ -10,7 +10,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 )
 
@@ -20,8 +19,15 @@ type Song struct {
 	Artist    string
 }
 
-type UIDInput struct {
-	uuid uuid.UUID
+type SongOutput struct {
+	Name      string
+	Listeners string
+	Artist    string
+	Date      time.Time
+}
+
+type EmailInput struct {
+	Email string
 }
 
 type attribute struct {
@@ -69,8 +75,14 @@ type SongsReponse struct {
 }
 
 type FavSongInsertion struct {
-	UID  uuid.UUID `db:"uid" json:"uid" binding:"required"`
-	Song Song
+	Email string
+	Song  Song
+}
+
+type FavSongDeletion struct {
+	Email string
+	Name  string
+	Date  string
 }
 
 var myClient = &http.Client{Timeout: 10 * time.Second}
@@ -113,15 +125,17 @@ func GETDAILYSONGS() ([]Song, error) {
 
 func (f *FavSongInsertion) INSERTFAVSONG() error {
 
+	print("f.email")
+	print(f.Email)
 	conn := config.GetDB()
 	if _, err := conn.Exec(context.Background(),
-		"CREATE TABLE IF NOT EXISTS UserFavSongs (id UUID PRIMARY KEY, songName String, listeners String, artist String, date DATE NOT DEFAULT CURRENT_DATE)"); err != nil {
+		"CREATE TABLE IF NOT EXISTS UserFavSongs (Email String, Name String, Listeners String, Artist String, Date TIMESTAMPTZ NOT NULL DEFAULT NOW())"); err != nil {
 		print(err)
 		return err
 
 	}
 	if _, err := conn.Exec(context.Background(),
-		"INSERT INTO UserFavSongs (id, songName, listeners, artist, date) VALUES ($1, $2, $3, $4, $5 )", f.UID, f.Song.Name, f.Song.Listeners, f.Song.Artist); err != nil {
+		"INSERT INTO UserFavSongs (Email, Name, Listeners, Artist) VALUES ($1, $2, $3, $4 )", f.Email, f.Song.Name, f.Song.Listeners, f.Song.Artist); err != nil {
 
 		return err
 	}
@@ -129,18 +143,51 @@ func (f *FavSongInsertion) INSERTFAVSONG() error {
 
 }
 
-func (u *UIDInput) GETFAVSONGS() ([]Song, error) {
+func (f *FavSongDeletion) DELETEFAVSONG() error {
 
 	conn := config.GetDB()
-	rows, err := conn.Query(context.Background(), "SELECT * FROM UserFavSongs where id = $", u.uuid)
-	if err != nil {
-		return nil, err
-	}
-	if rows.Next() {
-		return nil, nil
-	}
-	defer rows.Close()
+	if _, err := conn.Exec(context.Background(),
+		"CREATE TABLE IF NOT EXISTS UserFavSongs (Email String, Name String, Listeners String, Artist String, Date TIMESTAMPTZ NOT NULL DEFAULT NOW())"); err != nil {
+		print(err)
+		return err
 
-	return nil, err
+	}
+	if _, err := conn.Exec(context.Background(),
+		"DELETE  FROM USERFAVSONGS WHERE email=$1 and name=$2 and date=$3", f.Email, f.Name, f.Date); err != nil {
+
+		return err
+	}
+	return nil
+
+}
+
+func (e *EmailInput) GETFAVSONGS() ([]SongOutput, error) {
+
+	var rowSlice []SongOutput
+	conn := config.GetDB()
+
+	if _, err := conn.Exec(context.Background(),
+		"CREATE TABLE IF NOT EXISTS UserFavSongs (Email String, Name String, Listeners String, Artist String, Date TIMESTAMPTZ NOT NULL DEFAULT NOW())"); err != nil {
+		print(err)
+		return rowSlice, err
+	}
+	print("e.email")
+	print(e.Email)
+	rows, err := conn.Query(context.Background(), "SELECT Name, Listeners, Artist, Date FROM UserFavSongs where Email = $1", e.Email)
+
+	for rows.Next() {
+		var s SongOutput
+		err := rows.Scan(&s.Name, &s.Listeners, &s.Artist, &s.Date)
+		if err != nil {
+			return rowSlice, err
+		}
+		rowSlice = append(rowSlice, s)
+	}
+
+	if err != nil {
+		return rowSlice, err
+	}
+
+	return rowSlice, nil
 
 }

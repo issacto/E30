@@ -30,14 +30,14 @@ func Router(c *Config) {
 
 	// Create a group, or base url for all routes
 	g := c.R.Group("/api/song")
-	g.GET("/getAllSongs", h.GetAllSongs)
+	g.GET("/getDailySongs", h.GetDailySongs)
 	g.POST("/addNewSong", h.AddNewSong)
 	g.POST("/deleteSong", h.DeleteSong)
 	g.GET("/getNewSongs", h.GetNewSongs)
 }
 
 // Stripe here
-func (h *Handler) GetAllSongs(c *gin.Context) {
+func (h *Handler) GetDailySongs(c *gin.Context) {
 	response, err := model.GETDAILYSONGS()
 	c.JSON(http.StatusOK, gin.H{
 		"error": err,
