@@ -14,7 +14,7 @@ export const LayoutHeader: NextPage = () => {
         <Link href={'../'}>
           <div className="logoTextSession" id="logoTextSession">
             <Music size={48} color={'black'} />
-            <p className="bigHeaderP"> MusicRec</p> 
+           
           </div>
         </Link>
       </div>

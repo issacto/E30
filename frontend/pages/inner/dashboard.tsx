@@ -81,7 +81,7 @@ const DashboardPage: NextPage = () => {
             {console.log(data)}{' '}
             {data && data.data
               ? data.data.map((song, i) => (
-                  <tr key={song.Name}>
+                  <tr key={i}>
                     <td className="tableField">{i + 1}</td>
                     <td className="tableField">{song.Name}</td>
                     <td className="tableField">{song.Artist}</td>

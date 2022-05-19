@@ -21,6 +21,8 @@ RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
 RUN mkdir -p /api
 WORKDIR /api
 COPY --from=builder /api/app .
+COPY .env /api
+
 
 EXPOSE 5000
 
