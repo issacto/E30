@@ -1,37 +1,38 @@
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+ name: backend
+ namespace: default
+ labels:
+   app: backend
 spec:
-  selector:
-    matchLabels:
-      app: hello
-      tier: backend
-      track: stable
-  replicas: 2
-  template:
-    metadata:
-      labels:
-        app: hello
-        tier: backend
-        track: stable
-    spec:
-      containers:
-        - name: hello
-          image: issactototototo/musicrec-backend
-          ports:
-            - name: http
-              containerPort: 5000
+ replicas: 1
+ selector:
+   matchLabels:
+     app: backend
+ template:
+   metadata:
+     labels:
+       app: backend
+   spec:
+     containers:
+     - name: flask-backend
+       image: issactototototo/musicrec-backend:latest
+       ports:
+       - containerPort: 5000
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello
+  name: my-service
+  namespace: default
 spec:
   selector:
-    app: hello
-    tier: backend
+    app: backend
   ports:
-  - protocol: TCP
-    port: 5000
-    targetPort: http
+    - port: 5000
+      targetPort: 5000
+
+   
