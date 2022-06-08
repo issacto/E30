@@ -36,6 +36,10 @@ const LoginPage: NextPage = () => {
   }, [isLogin])
 
   const handleSubmit = async (data: formInput) => {
+    // setIsLogin('isLogin', true)
+    // router.push('../inner/dashboard')
+
+
     console.log(data)
     const response = await signIn({
       Email: data.email,

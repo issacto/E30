@@ -11,12 +11,8 @@ export const LayoutHeader: NextPage = () => {
   return (
     <div className="layoutHeader" id="layoutHeader">
       <div>
-        <Link href={'../'}>
-          <div className="logoTextSession" id="logoTextSession">
-            <Music size={48} color={'black'} />
-           
-          </div>
-        </Link>
+            <p className="bigHeaderP"> 🎵 MusicRec</p> 
+
       </div>
       <div className="navHeader" id="landingRightTopContainer">
         {isLogin.isLogin == 'false' ? (

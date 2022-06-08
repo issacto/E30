@@ -49,15 +49,19 @@ func (l *LoginCheck) SIGNIN() bool {
 
 	conn := config.GetDB()
 	fmt.Print(l)
+	fmt.Println("err")
 	rows, err := conn.Query(context.Background(), "SELECT * FROM Users where email = $1 and password = $2", l.Email, l.Password)
 	if err != nil {
+		err = nil
 		return false
 	}
+	defer rows.Close()
 	if rows.Next() {
 		return true
 	}
-	defer rows.Close()
-
+	print("hi")
+	print(rows)
+	err = nil
 	return false
 
 }

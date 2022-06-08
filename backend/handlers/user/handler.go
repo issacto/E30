@@ -64,6 +64,7 @@ func (h *Handler) Signup(c *gin.Context) {
 
 // Signin handler
 func (h *Handler) Signin(c *gin.Context) {
+	print("HIHI")
 	var loginCheck model.LoginCheck
 	if err := c.ShouldBindBodyWith(&loginCheck, binding.JSON); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -71,6 +72,7 @@ func (h *Handler) Signin(c *gin.Context) {
 		})
 		return
 	}
+	print("INPUT CORRECT")
 	response := loginCheck.SIGNIN()
 	if !response {
 		c.JSON(http.StatusConflict, gin.H{
@@ -132,6 +134,7 @@ func (h *Handler) GetFavSongs(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
 		})
+		err = nil
 		return
 	}
 	print(emailInput.Email)
@@ -141,6 +144,7 @@ func (h *Handler) GetFavSongs(c *gin.Context) {
 		c.JSON(http.StatusConflict, gin.H{
 			"error": err,
 		})
+		err = nil
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{

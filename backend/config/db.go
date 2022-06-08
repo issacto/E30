@@ -27,7 +27,6 @@ func Connect() {
 		log.Fatal("error configuring the database: ", err)
 	}
 
-	// Connect to the "bank" database.
 	conn, err := pgx.ConnectConfig(context.Background(), config)
 	Conn = *conn
 	if err != nil {

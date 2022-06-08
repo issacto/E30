@@ -2,6 +2,7 @@ package song
 
 import (
 	"E30/model"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -39,6 +40,8 @@ func Router(c *Config) {
 // Stripe here
 func (h *Handler) GetDailySongs(c *gin.Context) {
 	response, err := model.GETDAILYSONGS()
+	print("songs")
+	fmt.Println("err")
 	c.JSON(http.StatusOK, gin.H{
 		"error": err,
 		"data":  response,
