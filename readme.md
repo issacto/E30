@@ -10,4 +10,4 @@
 * DebOps: Kubernetes, Terraform
 
 
-<img src="assets/demo.gif" backgroundColor= white width=50%/>  
+<img src="assets/demo.gif" backgroundColor= white width=100%/>  
