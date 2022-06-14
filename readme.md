@@ -8,3 +8,6 @@
 * Backend: Golang
 * Database: CockroachDB (postgres)
 * DebOps: Kubernetes, Terraform
+
+
+![Demo]("assets/demo.gif")
