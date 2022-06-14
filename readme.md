@@ -9,5 +9,6 @@
 * Database: CockroachDB (postgres)
 * DebOps: Kubernetes, Terraform
 
-
+<p align="center">
 <img src="assets/demo.gif" backgroundColor= white width=1200px/>  
+</p>
